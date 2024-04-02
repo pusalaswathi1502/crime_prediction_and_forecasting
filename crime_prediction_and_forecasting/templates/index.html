@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crime Prediction and Forecasting</title>
+<script>
+  function validateInput(input) {
+    if (isNaN(input.value) || input.value < 0) {
+      alert("Please enter a valid positive number.");
+      input.value = "";
+    }
+  }
+</script>
+<style>
+    /* CSS styling for the form */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 20px;
+        background-image: url('static/crime.gif'); 
+        background-blend-mode: overlay;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+
+    .login {
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        color: blue;
+        text-align: center;
+    }
+
+    input[type="text"], select {
+        display: block;
+        margin-bottom: 10px;
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    .error {
+        color: red;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+  <div class="login">
+    <h1>Crime Prediction and Forecasting</h1>
+
+    <!-- Main Input For Receiving Query to our ML -->
+    <form action="/predict_crime_type" method="post">
+      <label for="iucr">IUCR:</label>
+      <input type="text" id="iucr" name="iucr" placeholder="IUCR" required="required" oninput="validateInput(this)" /><br>
+      
+      <label for="arrest">Arrest:</label>
+      <select id="arrest" name="arrest">
+        <option value="0">False</option>
+        <option value="1">True</option>
+      </select><br><br>
+      
+      <label for="domestic">domestic:</label>
+      <select id="domestic" name="domestic">
+        <option value="0">False</option>
+        <option value="1">True</option>
+      </select><br><br>
+      
+      
+      <label for="beat">Beat:</label>
+      <input type="text" id="beat" name="beat" placeholder="Beat" required="required" oninput="validateInput(this)"/><br>
+      
+      <label for="district">District:</label>
+      <input type="text" id="district" name="district" placeholder="District" required="required" oninput="validateInput(this)"/><br>
+
+      
+      <label for="year">Year:</label>
+      <select id="year" name="year">
+        <option value="0">2016</option>
+      </select><br><br>
+     
+      <label for="fbi_code">FBI Code:</label>
+      <input type="text" id="fbi_code" name="fbi_code" placeholder="FBI Code" required="required" /><br>
+
+      <button type="submit">Predict</button>
+    </form>
+    
+    {% if primary_type %}
+    <h3>Crime Type: <span style="color:red;">{{ primary_type }}</span></h3>
+    {% endif %}
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+  </div>
+</body>
+</html>
